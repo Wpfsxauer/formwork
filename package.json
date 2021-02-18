@@ -1,0 +1,31 @@
+{
+	"name": "wpfnodecli",
+	"version": "1.0.37",
+	"description": "自动化脚本",
+	"main": "index.js",
+	"author": "wpf527110561@126.com",
+	"private": false,
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "npm version patch && npm publish",
+		"start": "node index.js init test"
+	},
+	"bin": {
+		"wpf": "./index.js"
+	},
+	"license": "ISC",
+	"keywords": [
+		"wpfnodecli"
+	],
+	"dependencies": {
+		"chalk": "^4.1.0",
+		"clear": "^0.1.0",
+		"commander": "^7.1.0",
+		"download-git-repo": "^3.0.2",
+		"figlet": "^1.5.0",
+		"inquirer": "^7.3.3",
+		"log-symbols": "^4.0.0",
+		"ora": "^5.3.0",
+		"util": "^0.12.3"
+	}
+}
