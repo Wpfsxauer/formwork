@@ -1,35 +1,23 @@
-const fs = require("fs");
+// 动画效果
+const ora = require("ora");
+// 字体加颜色
+const chalk = require("chalk");
+// 显示提示图标
+const symbols = require("log-symbols");
+//工具函数
+const { promisify } = require("util");
+// 下载模板
+const download = promisify(require("download-git-repo"));
 
-function template(className) {
-	return `
-import * as React from 'react';
-
-export class ${className} extends React.Component{
-    constructor(props){
-        super(props);
-
-        this.state = {}
-    }
-
-    componentDidMount(){
-
-    }
-
-    render() {
-        return (
-            <div></div>
-        )
-    }
-}
-    `;
-}
-
-module.exports = function (filename) {
-	fs.writeFile(`./${filename}.jsx`, template(filename), function (err) {
-		if (err) {
-			console.log("创建失败：", err);
-		} else {
-			console.log(`创建文件成功！${filename}.jsx`);
-		}
-	});
+module.exports = async function (filename) {
+	const spinner = ora("正在下载项目...");
+	spinner.start();
+	const err = await download("Wpfsxauer/react-template", filename);
+	if (err) {
+		spinner.fail();
+		console.log(symbols.error, chalk.red(`${filename}项目创建失败。`));
+	} else {
+		spinner.succeed();
+		console.log(symbols.success, chalk.green(`${filename}项目创建成功。`));
+	}
 };
