@@ -1,6 +1,6 @@
 {
-	"name": "formwork",
-	"version": "1.0.0",
+	"name": "wpfnodecli",
+	"version": "1.0.39",
 	"description": "自动化脚本",
 	"main": "index.js",
 	"author": "wpf527110561@126.com",
@@ -14,9 +14,13 @@
 	"bin": {
 		"fw": "./index.js"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Wpfsxauer/formwork"
+	},
 	"license": "ISC",
 	"keywords": [
-		"wpfnodecli"
+		"formwork"
 	],
 	"dependencies": {
 		"chalk": "^4.1.0",
