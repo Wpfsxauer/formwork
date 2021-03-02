@@ -12,7 +12,7 @@
 		"git": "git add . && git commit -m init && git push"
 	},
 	"bin": {
-		"formwork": "./index.js"
+		"fw": "./index.js"
 	},
 	"license": "ISC",
 	"keywords": [
