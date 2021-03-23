@@ -26,9 +26,6 @@ const gitShell =(commit)=>{
     shell.exec('git push')
 }
 
-console.log(gitShell)
-
-
 const fontLog = async (options) => {
 	clear();
 	const name = await figlet(options);

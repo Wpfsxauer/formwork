@@ -9,7 +9,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "npm version patch && npm publish",
 		"start": "node index.js -g wpf",
-		"git": "git add . && git commit -m init && git push"
+		"git": "node index.js -g"
 	},
 	"bin": {
 		"fw": "./index.js"
