@@ -17,6 +17,10 @@ const clear = require("clear");
 // 改变输出log颜色的工具
 const chalk = require("chalk");
 
+const gitShell = require("./gitShell")
+console.log(gitShell)
+
+
 const fontLog = async (options) => {
 	clear();
 	const name = await figlet(options);
@@ -38,12 +42,16 @@ program
 	.version(package.version, "-v, --version")
 	.option("-n, --name <name>", "your name")
 	.option("-f, --foo", "enable some foo")
+    .option("-g, --git", "enable some foo")
 	.option("-l, --list <value>", "把字符串分割为数组", (value) => value.split(","))
 	.action((options) => {
-		const { name, foo, list } = options;
+		const { name, foo, list,git } = options;
 		if (name) fontLog(name);
 		if (foo) fontLog(foo);
 		if (list !== undefined) console.log(list);
+        if(git){
+            gitShell()
+        }
 	});
 
 program
