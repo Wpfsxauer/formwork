@@ -17,7 +17,15 @@ const clear = require("clear");
 // 改变输出log颜色的工具
 const chalk = require("chalk");
 
-const gitShell = require("./gitShell")
+const shell = require("shelljs");  // 执行文件操作
+
+const gitShell =(commit)=>{
+    shell.exec('git add .')
+    shell.exec(`git commit -m "${commit}"`)
+    shell.exec(`git pull`)
+    shell.exec('git push')
+}
+
 console.log(gitShell)
 
 
@@ -42,15 +50,15 @@ program
 	.version(package.version, "-v, --version")
 	.option("-n, --name <name>", "your name")
 	.option("-f, --foo", "enable some foo")
-    .option("-g, --git", "enable some foo")
+    .option("-g, --git <name>", "enable some foo")
 	.option("-l, --list <value>", "把字符串分割为数组", (value) => value.split(","))
 	.action((options) => {
 		const { name, foo, list,git } = options;
 		if (name) fontLog(name);
 		if (foo) fontLog(foo);
-		if (list !== undefined) console.log(list);
+		if (list !== undefined) console.log(list);``
         if(git){
-            gitShell()
+            gitShell(process.argv[process.argv.length-1])
         }
 	});
 
