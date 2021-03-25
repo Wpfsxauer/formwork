@@ -16,57 +16,59 @@ const figlet = promisify(require("figlet"));
 const clear = require("clear");
 // 改变输出log颜色的工具
 const chalk = require("chalk");
+// 执行文件操作
+const shell = require("shelljs");
 
-const shell = require("shelljs");  // 执行文件操作
-
-const gitShell =(commit)=>{
-    shell.exec('git add .')
-    shell.exec(`git commit -m "${commit}"`)
-    shell.exec(`git pull`)
-    shell.exec('git push')
-}
+const gitShell = (commit) => {
+    shell.exec("git add .");
+    shell.exec(`git commit -m "${commit}"`);
+    shell.exec(`git pull`);
+    shell.exec("git push");
+};
 
 const fontLog = async (options) => {
-	clear();
-	const name = await figlet(options);
-	console.log(chalk.green(name));
+    clear();
+    const name = await figlet(options);
+    console.log(chalk.green(name));
 };
 
 // 命令行选择列表
 const prompList = [
-	{
-		type: "list",
-		name: "name",
-		message: "请选择你想要生成的项目？",
-		choices,
-		default: 0,
-	},
+    {
+        type: "list",
+        name: "name",
+        message: "请选择你想要生成的项目？",
+        choices,
+        default: 0,
+    },
 ];
 
 program
-	.version(package.version, "-v, --version")
-	.option("-n, --name <name>", "your name")
-	.option("-f, --foo", "enable some foo")
+    .version(package.version, "-v, --version")
+    .option("-n, --name <name>", "your name")
+    .option("-f, --foo", "enable some foo")
     .option("-g, --git <name>", "enable some foo")
-	.option("-l, --list <value>", "把字符串分割为数组", (value) => value.split(","))
-	.action((options) => {
-		const { name, foo, list,git } = options;
-		if (name) fontLog(name);
-		if (foo) fontLog(foo);
-		if (list !== undefined) console.log(list);``
-        if(git){
-            gitShell(process.argv[process.argv.length-1])
+    .option("-l, --list <value>", "把字符串分割为数组", (value) =>
+        value.split(",")
+    )
+    .action((options) => {
+        const { name, foo, list, git } = options;
+        if (name) fontLog(name);
+        if (foo) fontLog(foo);
+        if (list !== undefined) console.log(list);
+        if (git) {
+            gitShell(process.argv[process.argv.length - 1]);
         }
-	});
+    });
 
 program
-	.command("init <filename>")
-	.description("初始化项目")
-	.action(async (filename) => {
-		const res = await inquirer.prompt(prompList);
-		const template = choices.filter((val) => val.name === res.name)[0];
-		template.src(filename);
-	});
+    .command("init <filename>")
+    .description("初始化项目")
+    .action(async (filename) => {
+        const res = await inquirer.prompt(prompList);
+        const template = choices.filter((val) => val.name === res.name)[0];
+        template.src(filename);
+    });
 
 // 处理命令行输入的参数
 program.parse(process.argv);
