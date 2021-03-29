@@ -46,19 +46,11 @@ const prompList = [
 program
     .version(package.version, "-v, --version")
     .option("-n, --name <name>", "your name")
-    .option("-f, --foo", "enable some foo")
-    .option("-g, --git <name>", "enable some foo")
-    .option("-l, --list <value>", "把字符串分割为数组", (value) =>
-        value.split(",")
-    )
+    .option("-g, --git <commit>", "your commit content")
     .action((options) => {
         const { name, foo, list, git } = options;
         if (name) fontLog(name);
-        if (foo) fontLog(foo);
-        if (list !== undefined) console.log(list);
-        if (git) {
-            gitShell(process.argv[process.argv.length - 1]);
-        }
+        if (git) gitShell(process.argv[process.argv.length - 1]);
     });
 
 program
