@@ -1,6 +1,6 @@
 {
 	"name": "wpfnodecli",
-	"version": "1.0.45",
+	"version": "1.0.46",
 	"description": "自动化脚本",
 	"main": "index.js",
 	"author": "wpf527110561@126.com",
