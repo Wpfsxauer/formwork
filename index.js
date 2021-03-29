@@ -48,7 +48,7 @@ program
     .option("-n, --name <name>", "your name")
     .option("-g, --git <commit>", "your commit content")
     .action((options) => {
-        const { name, foo, list, git } = options;
+        const { name, git } = options;
         if (name) fontLog(name);
         if (git) gitShell(process.argv[process.argv.length - 1]);
     });
