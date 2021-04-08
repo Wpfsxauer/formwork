@@ -18,13 +18,8 @@ const clear = require("clear");
 const chalk = require("chalk");
 // 执行文件操作
 const shell = require("shelljs");
-
-const gitShell = (commit) => {
-    shell.exec("git add .");
-    shell.exec(`git commit -m "${commit}"`);
-    shell.exec(`git pull`);
-    shell.exec("git push");
-};
+//git命令
+const gitShell = require("./gitcmd");
 
 const fontLog = async (options) => {
     clear();
