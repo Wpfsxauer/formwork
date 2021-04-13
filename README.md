@@ -34,4 +34,3 @@
     | build | 改变了build工具，如grunt换成了npm |
     | revert | 撤销上一次的commit |
     | chore | 构建过程或辅助工具的变动 |
-    |  |  |
