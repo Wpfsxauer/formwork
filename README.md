@@ -1,5 +1,9 @@
 # 项目介绍
 
+```javascript
+  npm i wpfnodecli -g
+```
+
 - node 脚本，配置 vue、react 模版，封装 git 命令
 
 ## 脚本信息
