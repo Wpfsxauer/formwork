@@ -20,7 +20,10 @@
 	},
 	"license": "ISC",
 	"keywords": [
-		"formwork"
+		"formwork",
+        "git",
+        "node",
+        "nodecli"
 	],
 	"dependencies": {
 		"chalk": "^4.1.0",
