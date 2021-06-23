@@ -10,14 +10,14 @@ const { promisify } = require("util");
 const download = promisify(require("download-git-repo"));
 
 module.exports = async function (filename) {
-	const spinner = ora("正在下载项目...");
-	spinner.start();
-	const err = await download("Wpfsxauer/skyRoad", filename);
-	if (err) {
-		spinner.fail();
-		console.log(symbols.error, chalk.red(`${filename}项目创建失败。`));
-	} else {
-		spinner.succeed();
-		console.log(symbols.success, chalk.green(`${filename}项目创建成功。`));
-	}
+    const spinner = ora("正在下载项目...");
+    spinner.start();
+    const err = await download("Wpfsxauer/vite-vue-mobile-app", filename);
+    if (err) {
+        spinner.fail();
+        console.log(symbols.error, chalk.red(`${filename}项目创建失败。`));
+    } else {
+        spinner.succeed();
+        console.log(symbols.success, chalk.green(`${filename}项目创建成功。`));
+    }
 };
