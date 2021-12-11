@@ -7,7 +7,7 @@ const inquirer = require("inquirer");
 //package
 const package = require("./package.json");
 // 引入模板文件
-const choices = require("./choices/index");
+const { templateList, templateHandle } = require("./template/index");
 //工具函数
 const { promisify } = require("util");
 // 字符画
@@ -33,7 +33,7 @@ const prompList = [
         type: "list",
         name: "name",
         message: "请选择你想要生成的项目？",
-        choices,
+        choices: templateList,
         default: 0,
     },
 ];
@@ -53,8 +53,8 @@ program
     .description("初始化项目")
     .action(async (filename) => {
         const res = await inquirer.prompt(prompList);
-        const template = choices.filter((val) => val.name === res.name)[0];
-        template.src(filename);
+        const { url } = templateList.filter((val) => val.name === res.name)[0];
+        templateHandle(url, filename);
     });
 
 // 处理命令行输入的参数
