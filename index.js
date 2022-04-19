@@ -41,19 +41,20 @@ const prompList = [
 program
   .version(package.version, "-v, --version")
   .option("-n, --name <name>", "your name")
-  .option("-m, --commit <commit>", "your commit content")
+  .option("-p, --push <commit>", "your commit content")
+  .option("-m, --merge")
   .option("-d, --dev")
   .option("-o, --online")
-  .option("-p, --preOnline")
-  .option("-m, --merge")
+  .option("-pr, --preOnline")
+
 
   .action((options) => {
-    const { name, commit, online, dev, preOnline, merge } = options;
+    const { name, push, online, dev, preOnline, merge } = options;
     if (name) fontLog(name);
-    if (commit) gitPush(process.argv[process.argv.length - 1]);
     if (merge) gitMerge()
-    if (online) gitOl()
+    if (push) gitPush(process.argv[process.argv.length - 1]);
     if (dev) gitDev()
+    if (online) gitOl()
     if (preOnline) gitPol()
   });
 
