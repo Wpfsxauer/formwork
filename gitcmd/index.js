@@ -8,6 +8,7 @@ const clear = require("clear");
 const gitBranch = async () => {
   const outstr = await shell.exec(`git branch -a`);
   clear()
+
   const list = outstr.stdout.split(/\n/).reduce((pre, cur) => {
     const reg = /origin\//;
     const matchList = cur.split(reg);
@@ -32,6 +33,7 @@ const gitMerge = async () => {
       default: 0,
     },
   ]);
+
   shell.exec(`git merge ${selectBr.name}`)
   shell.exec(`git push`)
 }
@@ -76,7 +78,7 @@ const gitPush = async (desc) => {
   ];
 
   const res = await inquirer.prompt(commitList);
-  const commitType = commitTypeList.filter((val) => val.name === res.name)[0];
+  const commitType = commitTypeList.filter((val) => val.name === name)[0];
   const commit = commitType.type + ": " + desc;
   shell.exec("git add .");
   shell.exec(`git commit -m "${commit}"`);
@@ -85,20 +87,26 @@ const gitPush = async (desc) => {
 };
 
 const gitDev = async () => {
-  const templateList = Array.from({ length: 5 }, (item, index) => `stage0${index + 1}`)
-  const res = await inquirer.prompt([
+  const { name } = await inquirer.prompt([
     {
       type: "list",
       name: "name",
       message: "请选择你想要部署的环境？",
-      choices: templateList,
+      choices: Array.from({ length: 5 }, (item, index) => `stage0${index + 1}`),
       default: 0,
     },
   ]);
 
   const list = await gitBranch()
-  list.includes(res.name) ? shell.exec(`git checkout ${res.name}`) : shell.exec(`git checkout -b ${res.name}`)
-  shell.exec(`git pull`)
+
+  if (list.includes(name)) {
+    shell.exec(`git checkout ${name}`)
+    shell.exec(`git pull`)
+  } else {
+    shell.exec(`git checkout master`)
+    shell.exec(`git pull`)
+    shell.exec(`git checkout -b ${name}`)
+  }
 
   await gitMerge()
 };
