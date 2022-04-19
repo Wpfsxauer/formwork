@@ -95,7 +95,9 @@ const gitDev = async () => {
       default: 0,
     },
   ]);
-  shell.exec(`git checkout ${res.name}`)
+
+  const list = await gitBranch()
+  list.includes(res.name) ? shell.exec(`git checkout ${res.name}`) : shell.exec(`git checkout -b ${res.name}`)
   shell.exec(`git pull`)
 
   await gitMerge()
