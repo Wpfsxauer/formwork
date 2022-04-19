@@ -104,6 +104,24 @@ const gitDev = async () => {
 };
 
 const gitOl = async () => {
+  const { name } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "name",
+      message: "确定要上线吗？",
+      choices: ["确定", "取消"],
+      default: 0,
+    },
+  ]);
+
+  if (name === "取消") return
+  const list = await gitBranch()
+  if (!list.includes("beta")) {
+    console.error("上线失败，请先创建beta分支～")
+    return
+  }
+  shell.exec(`git checkout beta`)
+  shell.exec(`git pull`)
   shell.exec(`git checkout master`)
   shell.exec(`git pull`)
   shell.exec(`git merge beta`)
@@ -120,8 +138,14 @@ const gitOl = async () => {
 
 const gitPol = async () => {
   const list = await gitBranch()
-  list.includes("beta") ? shell.exec(`git checkout beta`) : shell.exec(`git checkout -b beta`)
-  shell.exec(`git pull`)
+  if (list.includes("beta")) {
+    shell.exec(`git checkout beta`)
+    shell.exec(`git pull`)
+  } else {
+    shell.exec(`git checkout master`)
+    shell.exec(`git pull`)
+    shell.exec(`git checkout -b beta`)
+  }
   await gitMerge()
 };
 

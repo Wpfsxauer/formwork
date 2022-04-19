@@ -1,6 +1,6 @@
 {
 	"name": "wpfnodecli",
-	"version": "1.0.52",
+	"version": "1.0.54",
 	"description": "自动化脚本",
 	"main": "index.js",
 	"author": "wpf527110561@126.com",
@@ -8,7 +8,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "npm version patch && npm publish",
-		"start": "node index.js -d",
+		"start": "node index.js -o",
 		"git": "node index.js -g"
 	},
 	"bin": {
