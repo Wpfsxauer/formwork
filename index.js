@@ -44,9 +44,8 @@ program
   .option("-p, --push <commit>", "your commit content")
   .option("-m, --merge")
   .option("-d, --dev")
-  .option("-o, --online")
   .option("-pr, --preOnline")
-
+  .option("-o, --online")
 
   .action((options) => {
     const { name, push, online, dev, preOnline, merge } = options;
@@ -54,8 +53,8 @@ program
     if (merge) gitMerge()
     if (push) gitPush(process.argv[process.argv.length - 1]);
     if (dev) gitDev()
-    if (online) gitOl()
     if (preOnline) gitPol()
+    if (online) gitOl()
   });
 
 program
