@@ -5,8 +5,8 @@ const shell = require("shelljs");
 // 清屏
 const clear = require("clear");
 
-const gitBranch = async () => {
-  const outstr = await shell.exec(`git branch -a`);
+const gitBranch = () => {
+  const outstr = shell.exec(`git branch -a`);
   clear()
 
   const list = outstr.stdout.split(/\n/).reduce((pre, cur) => {
@@ -23,7 +23,7 @@ const gitBranch = async () => {
 }
 
 const gitMerge = async () => {
-  const list = await gitBranch()
+  const list = gitBranch()
   const selectBr = await inquirer.prompt([
     {
       type: "list",
@@ -78,7 +78,7 @@ const gitPush = async (desc) => {
   ];
 
   const res = await inquirer.prompt(commitList);
-  const commitType = commitTypeList.filter((val) => val.name === name)[0];
+  const commitType = commitTypeList.filter((val) => val.name === res.name)[0];
   const commit = commitType.type + ": " + desc;
   shell.exec("git add .");
   shell.exec(`git commit -m "${commit}"`);
@@ -97,9 +97,7 @@ const gitDev = async () => {
     },
   ]);
 
-  const list = await gitBranch()
-
-  if (list.includes(name)) {
+  if (gitBranch().includes(name)) {
     shell.exec(`git checkout ${name}`)
     shell.exec(`git pull`)
   } else {
@@ -123,11 +121,15 @@ const gitOl = async () => {
   ]);
 
   if (name === "取消") return
-  const list = await gitBranch()
-  if (!list.includes("beta")) {
-    console.error("上线失败，请先创建beta分支～")
+
+  const outstr = shell.exec(`git branch`);
+  clear()
+  const curBranch = outstr.stdout.split(/\n/)[0].replace(/\*/, "").trim()
+  if (curBranch !== "beta") {
+    console.error("上线失败，请先切换到beta分支～")
     return
   }
+
   shell.exec(`git checkout beta`)
   shell.exec(`git pull`)
   shell.exec(`git checkout master`)
@@ -145,8 +147,7 @@ const gitOl = async () => {
 };
 
 const gitPol = async () => {
-  const list = await gitBranch()
-  if (list.includes("beta")) {
+  if (gitBranch().includes("beta")) {
     shell.exec(`git checkout beta`)
     shell.exec(`git pull`)
   } else {
