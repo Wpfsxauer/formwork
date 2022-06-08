@@ -7,7 +7,7 @@ const clear = require("clear");
 
 const gitBranch = () => {
   const outstr = shell.exec(`git branch -a`);
-  clear()
+  clear();
 
   const list = outstr.stdout.split(/\n/).reduce((pre, cur) => {
     const reg = /origin\//;
@@ -19,11 +19,11 @@ const gitBranch = () => {
     return pre;
   }, []);
 
-  return list
-}
+  return list;
+};
 
 const gitMerge = async () => {
-  const list = gitBranch()
+  const list = gitBranch();
   const selectBr = await inquirer.prompt([
     {
       type: "list",
@@ -34,9 +34,9 @@ const gitMerge = async () => {
     },
   ]);
 
-  shell.exec(`git merge ${selectBr.name}`)
-  shell.exec(`git push`)
-}
+  shell.exec(`git merge ${selectBr.name}`);
+  shell.exec(`git push`);
+};
 
 const gitPush = async (desc) => {
   const commitTypeList = [
@@ -98,15 +98,15 @@ const gitDev = async () => {
   ]);
 
   if (gitBranch().includes(name)) {
-    shell.exec(`git checkout ${name}`)
-    shell.exec(`git pull`)
+    shell.exec(`git checkout ${name}`);
+    shell.exec(`git pull`);
   } else {
-    shell.exec(`git checkout master`)
-    shell.exec(`git pull`)
-    shell.exec(`git checkout -b ${name}`)
+    shell.exec(`git checkout master`);
+    shell.exec(`git pull`);
+    shell.exec(`git checkout -b ${name}`);
   }
 
-  await gitMerge()
+  await gitMerge();
 };
 
 const gitOl = async () => {
@@ -120,42 +120,62 @@ const gitOl = async () => {
     },
   ]);
 
-  if (name === "取消") return
+  if (name === "取消") return;
 
   const outstr = shell.exec(`git branch`);
-  clear()
-  const curBranch = outstr.stdout.split(/\n/)[0].replace(/\*/, "").trim()
+  clear();
+  const curBranch = outstr.stdout.split(/\n/)[0].replace(/\*/, "").trim();
   if (curBranch !== "beta") {
-    console.error("上线失败，请先切换到beta分支～")
-    return
+    console.error("上线失败，请先切换到beta分支～");
+    return;
   }
 
-  shell.exec(`git checkout beta`)
-  shell.exec(`git pull`)
-  shell.exec(`git checkout master`)
-  shell.exec(`git pull`)
-  shell.exec(`git merge beta`)
-  shell.exec(`git push`)
+  shell.exec(`git checkout beta`);
+  shell.exec(`git pull`);
+  shell.exec(`git checkout master`);
+  shell.exec(`git pull`);
+  shell.exec(`git merge beta`);
+  shell.exec(`git push`);
 
-  shell.exec(`git branch -D beta`)
-  shell.exec(`git push origin --delete beta`)
+  shell.exec(`git branch -D beta`);
+  shell.exec(`git push origin --delete beta`);
 
-  const { time } = require("../utils/time")
-  const tagName = `v${time}`
-  shell.exec(`git tag ${tagName}`)
-  shell.exec(`git push origin ${tagName}`)
+  const { time } = require("../utils/time");
+  const tagName = `v${time}`;
+  shell.exec(`git tag ${tagName}`);
+  shell.exec(`git push origin ${tagName}`);
 };
 
 const gitPol = async () => {
   if (gitBranch().includes("beta")) {
-    shell.exec(`git checkout beta`)
-    shell.exec(`git pull`)
+    shell.exec(`git checkout beta`);
+    shell.exec(`git pull`);
   } else {
-    shell.exec(`git checkout master`)
-    shell.exec(`git pull`)
-    shell.exec(`git checkout -b beta`)
+    shell.exec(`git checkout master`);
+    shell.exec(`git pull`);
+    shell.exec(`git checkout -b beta`);
   }
-  await gitMerge()
+  await gitMerge();
+};
+
+const gitDel = async () => {
+  const list = gitBranch();
+  const selectBr = await inquirer.prompt([
+    {
+      type: "list",
+      name: "name",
+      message: "请选择你想要删除的分支？",
+      choices: list,
+      default: 0,
+    },
+  ]);
+  if (selectBr.name === "master") {
+    console.log("删除失败，master代码不允许删除！");
+    return;
+  }
+
+  shell.exec(`git branch -D  ${selectBr.name}`);
+  shell.exec(`git push origin --delete  ${selectBr.name}`);
 };
 
 module.exports = {
@@ -163,5 +183,6 @@ module.exports = {
   gitDev,
   gitOl,
   gitPol,
-  gitMerge
+  gitMerge,
+  gitDel,
 };

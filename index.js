@@ -19,7 +19,14 @@ const chalk = require("chalk");
 // 执行文件操作
 const shell = require("shelljs");
 //git命令
-const { gitPush, gitDev, gitOl, gitPol, gitMerge } = require("./gitcmd");
+const {
+  gitPush,
+  gitDev,
+  gitOl,
+  gitPol,
+  gitMerge,
+  gitDel,
+} = require("./gitcmd");
 
 const fontLog = async (options) => {
   clear();
@@ -46,15 +53,17 @@ program
   .option("-d, --dev")
   .option("-pr, --preOnline")
   .option("-o, --online")
+  .option("-del, --del")
 
   .action((options) => {
-    const { name, push, online, dev, preOnline, merge } = options;
+    const { name, push, online, dev, preOnline, merge, del } = options;
     if (name) fontLog(name);
-    if (merge) gitMerge()
+    if (merge) gitMerge();
     if (push) gitPush(process.argv[process.argv.length - 1]);
-    if (dev) gitDev()
-    if (preOnline) gitPol()
-    if (online) gitOl()
+    if (dev) gitDev();
+    if (preOnline) gitPol();
+    if (online) gitOl();
+    if (del) gitDel();
   });
 
 program
