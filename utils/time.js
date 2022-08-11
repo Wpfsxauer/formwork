@@ -18,9 +18,7 @@ Date.prototype.format = function (fmt) {
     return fmt;
 };
 
-const time = new Date().format("yyyy-MM-dd hh:mm:ss").replace(/-/g, "").replace(/:/g, "").replace(/\s/g, "");
-
-
+const time = new Date().format("yyyy-MM-dd hh:mm:ss").replace(/[-:\s]/g, "");
 
 module.exports = {
     time
