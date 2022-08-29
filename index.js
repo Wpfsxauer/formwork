@@ -20,6 +20,7 @@ const chalk = require("chalk");
 const shell = require("shelljs");
 //git命令
 const {
+  gitCr,
   gitPush,
   gitDev,
   gitOl,
@@ -54,9 +55,10 @@ program
   .option("-pr, --preOnline")
   .option("-o, --online")
   .option("-del, --del")
+  .option("-cr, --create <branch>", "your branch")
 
   .action((options) => {
-    const { name, push, online, dev, preOnline, merge, del } = options;
+    const { name, push, online, dev, preOnline, merge, del, create } = options;
     if (name) fontLog(name);
     if (merge) gitMerge();
     if (push) gitPush(process.argv[process.argv.length - 1]);
@@ -64,6 +66,7 @@ program
     if (preOnline) gitPol();
     if (online) gitOl();
     if (del) gitDel();
+    if (create) gitCr();
   });
 
 program

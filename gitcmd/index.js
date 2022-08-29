@@ -5,6 +5,40 @@ const shell = require("shelljs");
 // 清屏
 const clear = require("clear");
 
+const typeList = [
+  {
+    name: "新功能",
+    type: "feat",
+  },
+  {
+    name: "修复bug",
+    type: "fix",
+  },
+  {
+    name: "某个已有功能重构",
+    type: "refactor",
+  },
+  {
+    name: "性能优化",
+    type: "perf",
+  },
+  {
+    name: "代码格式改变",
+    type: "style",
+  },
+  {
+    name: "文档改变",
+    type: "dosc",
+  },
+];
+
+const gitCr = async () => {
+  const res = await inquirer.prompt(commitList);
+  const type = typeList.filter((val) => val.name === res.name)[0];
+  const branch = `${type.type}/${desc}`;
+  shell.exec(`git checkout -b "${branch}"`);
+}
+
 const gitBranch = () => {
   const outstr = shell.exec(`git branch -a`);
   clear();
@@ -39,46 +73,19 @@ const gitMerge = async () => {
 };
 
 const gitPush = async (desc) => {
-  const commitTypeList = [
-    {
-      name: "新功能",
-      type: "feat",
-    },
-    {
-      name: "修复bug",
-      type: "fix",
-    },
-    {
-      name: "某个已有功能重构",
-      type: "refactor",
-    },
-    {
-      name: "性能优化",
-      type: "perf",
-    },
-    {
-      name: "代码格式改变",
-      type: "style",
-    },
-    {
-      name: "文档改变",
-      type: "dosc",
-    },
-  ];
-
   // 项目命令行选择列表
   const commitList = [
     {
       type: "list",
       name: "name",
       message: "commit的类别",
-      choices: commitTypeList,
+      choices: typeList,
       default: 0,
     },
   ];
 
   const res = await inquirer.prompt(commitList);
-  const commitType = commitTypeList.filter((val) => val.name === res.name)[0];
+  const commitType = typeList.filter((val) => val.name === res.name)[0];
   const commit = commitType.type + ": " + desc;
   shell.exec("git add .");
   shell.exec(`git commit -m "${commit}"`);
@@ -179,6 +186,7 @@ const gitDel = async () => {
 };
 
 module.exports = {
+  gitCr,
   gitPush,
   gitDev,
   gitOl,
