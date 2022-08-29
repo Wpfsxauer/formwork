@@ -32,8 +32,19 @@ const typeList = [
   },
 ];
 
-const gitCr = async () => {
-  const res = await inquirer.prompt(commitList);
+const gitCr = async (desc) => {
+  // 项目命令行选择列表
+  const list = [
+    {
+      type: "list",
+      name: "name",
+      message: "branch的类别",
+      choices: typeList,
+      default: 0,
+    },
+  ];
+
+  const res = await inquirer.prompt(list);
   const type = typeList.filter((val) => val.name === res.name)[0];
   const branch = `${type.type}/${desc}`;
   shell.exec(`git checkout -b "${branch}"`);

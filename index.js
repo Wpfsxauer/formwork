@@ -66,7 +66,7 @@ program
     if (preOnline) gitPol();
     if (online) gitOl();
     if (del) gitDel();
-    if (create) gitCr();
+    if (create) gitCr(process.argv[process.argv.length - 1]);
   });
 
 program
