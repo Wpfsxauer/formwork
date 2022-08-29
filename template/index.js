@@ -26,6 +26,7 @@ module.exports = {
     templateList: [
         { name: "vue", url: "Wpfsxauer/vue-vite-moible-template" },
         { name: "react", url: "Wpfsxauer/react-template" },
+        { name: "next-template", url: "Wpfsxauer/next-template" },
     ],
     templateHandle,
 };
