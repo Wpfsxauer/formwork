@@ -79,7 +79,7 @@ const gitMerge = async () => {
     },
   ]);
 
-  shell.exec(`git merge ${selectBr.name}`);
+  shell.exec(`git merge remotes/origin/${selectBr.name}`);
   shell.exec(`git push`);
 };
 
